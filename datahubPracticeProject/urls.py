@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from datahub import views
+from datahub.views import index, upload_file_view
+
+app_name='csvs'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', index, name='index'),
+    path('upload/', upload_file_view, name='upload-view')
 ]
