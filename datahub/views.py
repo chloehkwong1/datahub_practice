@@ -6,6 +6,7 @@ from dateutil.parser import parse
 
 import csv
 
+
 def index(request):
     return HttpResponse('Welcome to DIT Datahub.')
 
@@ -19,19 +20,19 @@ def upload_file_view(request):
         with open(obj.file_name.path, 'r') as f:
             reader = csv.reader(f)
             for i, row in enumerate(reader):
-                if i==0:
+                if i == 0:
                     pass
                 else:
                     BEDTemplate.objects.create(
-                        interaction_title = row[0],
-                        interaction_date = parse(row[1]),
-                        lead_minister_or_official = row[2],
-                        type = row[3],
-                        country = row[4],
-                        region = row[5],
-                        city_or_town = row[6],
-                        attending_organisations = row[7],
-                        attending_contacts = row[8],
+                        interaction_title=row[0],
+                        interaction_date=parse(row[1]),
+                        lead_minister_or_official=row[2],
+                        type=row[3],
+                        country=row[4],
+                        region=row[5],
+                        city_or_town=row[6],
+                        attending_organisations=row[7],
+                        attending_contacts=row[8],
                     )
                 obj.activated = True
                 obj.save()
