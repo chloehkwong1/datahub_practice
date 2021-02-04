@@ -15,7 +15,7 @@ class BEDTemplate(models.Model):
     attending_contacts = models.TextField()
 
     def __str__(self):
-        return f"{self.interaction_title} happened on {self.interaction_date}. Contact {self.lead_minister_or_official} for more information."
+        return f"{self.interaction_date} {self.interaction_title}"
 
 class Csv(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
