@@ -1,15 +1,15 @@
-from django.http import HttpResponse
 from django.shortcuts import render
+
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+
 from .forms import CsvModelForm
-from .models import Csv, BEDTemplate
+from .models import Csv, BedTemplate
+from .serializers import BedSerializer
 from dateutil.parser import parse
 
 import csv
-
-
-def index(request):
-    return HttpResponse('Welcome to DIT Datahub.')
-
 
 def upload_file_view(request):
     form = CsvModelForm(request.POST or None, request.FILES or None)
@@ -23,7 +23,7 @@ def upload_file_view(request):
                 if i == 0:
                     pass
                 else:
-                    BEDTemplate.objects.create(
+                    BedTemplate.objects.create(
                         interaction_title=row[0],
                         interaction_date=parse(row[1]),
                         lead_minister_or_official=row[2],
