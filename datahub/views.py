@@ -36,4 +36,4 @@ def upload_file_view(request):
                     )
                 obj.activated = True
                 obj.save()
-    return render(request, 'csvs/upload.html', {'form': form})
+    return render(request, 'upload.html', {'form': form})
