@@ -14,13 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from datahub.views import index, upload_file_view
+from django.urls import path, re_path
+from datahub import views
 
 app_name='csvs'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
-    path('upload/', upload_file_view, name='upload-view')
+    path('upload/', views.upload_file_view, name='upload-view'),
+    re_path(r'^api/interactions$', views.interaction_list),
+    re_path(r'^api/interactions/(?P<pk>[0-9]+)$', views.interaction_detail),
+    re_path(r'^api/interactions/published$', views.interaction_list_published),
 ]

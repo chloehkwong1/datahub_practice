@@ -7,6 +7,7 @@ from rest_framework import status
 from .forms import CsvModelForm
 from .models import Csv, BedTemplate
 from .serializers import BedSerializer
+from rest_framework.decorators import api_view
 from dateutil.parser import parse
 
 import csv
@@ -37,3 +38,21 @@ def upload_file_view(request):
                 obj.activated = True
                 obj.save()
     return render(request, 'upload.html', {'form': form})
+
+@api_view(['GET', 'POST'])
+def interaction_list(request):
+    # GET list of interactions, POST a new interaction
+    pass
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def interaction_detail(request, id):
+    # find interaction by id
+    try:
+        interaction = BedTemplate.objects.get(id=id)
+    except BedTemplate.DoesNotExist:
+        return JsonResponse({'message': 'This interaction does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def interaction_list_published(request):
+    # GET all published interactions
+    pass
