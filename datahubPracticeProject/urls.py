@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('upload/', views.upload_file_view, name='upload-view'),
     re_path(r'^api/interactions$', views.interaction_list),
-    re_path(r'^api/interactions/(?P<pk>[0-9]+)$', views.interaction_detail),
+    re_path(r'^api/interactions/(?P<pk>[0-9a-f-]+)$', views.interaction_detail),
     re_path(r'^api/interactions/published$', views.interaction_list_published),
 ]

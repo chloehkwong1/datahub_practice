@@ -35,24 +35,64 @@ def upload_file_view(request):
                         attending_organisations=row[7],
                         attending_contacts=row[8],
                     )
-                obj.activated = True
+                obj.published = True
                 obj.save()
     return render(request, 'upload.html', {'form': form})
 
 @api_view(['GET', 'POST'])
 def interaction_list(request):
     # GET list of interactions, POST a new interaction
-    pass
+    if request.method == 'GET':
+        interactions = BedTemplate.objects.all()
+
+        title = request.GET.get('interaction_title', None)
+        if title is not None:
+            interactions = interactions.filter(interaction_title__icontains=title)
+
+        interactions_serializer = BedSerializer(interactions, many=True)
+        return JsonResponse(interactions_serializer.data, safe=False)
+        # 'safe=False' for objects serialization
+
+    elif request.method == 'POST':
+        interaction_data = JSONParser().parse(request)
+        interaction_serializer = BedSerializer(data=interaction_data)
+        if interaction_serializer.is_valid():
+            interaction_serializer.save()
+            return JsonResponse(interaction_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(interaction_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def interaction_detail(request, id):
+def interaction_detail(request, pk):
     # find interaction by id
     try:
-        interaction = BedTemplate.objects.get(id=id)
+        interaction = BedTemplate.objects.get(pk=pk)
     except BedTemplate.DoesNotExist:
         return JsonResponse({'message': 'This interaction does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        interaction_serializer = BedSerializer(interaction)
+        return JsonResponse(interaction_serializer.data)
+
+    elif request.method == 'PUT':
+        interaction_data = JSONParser().parse(request)
+        interaction_serializer = BedSerializer(interaction, data=interaction_data)
+        if interaction_serializer.is_valid():
+            interaction_serializer.save()
+            return JsonResponse(interaction_serializer.data)
+        return JsonResponse(interaction_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        interaction.delete()
+        return JsonResponse({'message': 'Interaction was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+
+
 
 @api_view(['GET'])
 def interaction_list_published(request):
     # GET all published interactions
-    pass
+    interactions = BedTemplate.objects.filter(published=True)
+
+    if request.method == 'GET':
+        interactions_serializer = BedSerializer(interactions, many=True)
+        return JsonResponse(interactions_serializer, safe=False)

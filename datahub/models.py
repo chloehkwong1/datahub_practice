@@ -21,7 +21,7 @@ class Csv(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     file_name = models.FileField(upload_to='csvs')
     uploaded = models.DateTimeField(auto_now_add=True)
-    activated = models.BooleanField(default=False)
+    published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"File id: {self.id}"
+        return f"File name: {self.file_name}"
