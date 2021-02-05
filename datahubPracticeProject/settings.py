@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'datahubPracticeProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'practicedatabase',
         'USER': 'mydatabaseuser',
         'PASSWORD': 'mypassword',
