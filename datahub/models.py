@@ -30,7 +30,25 @@ class BedTemplate(models.Model):
         help_text='See guidance for examples of types.'
     )
     country = CountryField(max_length=200, help_text='Please select from the list below.')
-    region = models.CharField(max_length=200, help_text='Please select from the list below.')
+    ## country field needs changing as json serialiser doesn't work with uploaded csvs
+    region = models.CharField(
+        choices=[('london', 'London'),
+                 ('scotland', 'Scotland'),
+                 ('wales', 'Wales'),
+                 ('northern_ireland', 'Northern Ireland'),
+                 ('east_of_england', 'East of England'),
+                 ('east_midlands', 'East Midlands'),
+                 ('north_east', 'North East'),
+                 ('south_east', 'South East'),
+                 ('south_west', 'South West'),
+                 ('west_midlands', 'West Midlands'),
+                 ('yorkshire_and_the_humber', 'Yorkshire and the Humber'),
+                 ('guernsey', 'Guernsey'),
+                 ('jersey', 'Jersey'),
+                 ('isle_of_man', 'Isle of Man'),
+                 ('non_uk', 'Non UK')
+                 ],
+        max_length=200, help_text='Please select from the list below.')
     city_or_town = models.CharField(max_length=200, help_text='For example Bristol, Brighton or Chelmsford.')
     attending_organisations = models.TextField(help_text='A list of organisations who attended, separated by a comma.')
     attending_contacts = models.TextField(
