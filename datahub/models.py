@@ -5,9 +5,11 @@ import uuid
 
 class BedTemplate(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    interaction_title = models.CharField(max_length=200, unique=True)
-    interaction_date = models.DateField()
-    lead_minister_or_official = models.EmailField()
+    interaction_title = models.CharField(max_length=200, unique=True,
+                                         help_text='This is the title of the interaction, for example "XYZ meeting"')
+    interaction_date = models.DateField(help_text='The date of the interaction, in a yyyy-mm-dd format.')
+    lead_minister_or_official = models.EmailField(
+        help_text='The e-mail address of the minister or official who led the engagement.')
     type = models.CharField(
         choices=[('bilateral_meeting', 'Bilateral Meeting'),
                  ('brush_by', 'Brush By'),
@@ -24,13 +26,15 @@ class BedTemplate(models.Model):
                  ('visit', 'Visit'),
                  ('webinar', 'Webinar')
                  ],
-        max_length=100
+        max_length=200,
+        help_text='See guidance for examples of types.'
     )
-    country = CountryField(blank_label='(select country)', max_length=100)
-    region = models.CharField(max_length=100)
-    city_or_town = models.CharField(max_length=100)
-    attending_organisations = models.TextField()
-    attending_contacts = models.TextField()
+    country = CountryField(max_length=200, help_text='Please select from the list below.')
+    region = models.CharField(max_length=200, help_text='Please select from the list below.')
+    city_or_town = models.CharField(max_length=200, help_text='For example Bristol, Brighton or Chelmsford.')
+    attending_organisations = models.TextField(help_text='A list of organisations who attended, separated by a comma.')
+    attending_contacts = models.TextField(
+        help_text='A list of attendees (by e-mail address) who attended, separated by a comma.')
 
     def __str__(self):
         return f"{self.interaction_date} {self.interaction_title}"
