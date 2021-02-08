@@ -29,8 +29,11 @@ class BedTemplate(models.Model):
         max_length=200,
         help_text='See guidance for examples of types.'
     )
-    country = CountryField(max_length=200, help_text='Please select from the list below.')
-    ## country field needs changing as json serialiser doesn't work with uploaded csvs
+    country = models.CharField(
+        choices=[('united_kingdom', 'United Kingdom'),
+                 ('germany', 'Germany'),
+                 ('united_states_of_america', 'United States of America')],
+        max_length=200, help_text='Please select from the list below.')
     region = models.CharField(
         choices=[('london', 'London'),
                  ('scotland', 'Scotland'),
