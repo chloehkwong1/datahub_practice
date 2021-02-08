@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'datahub.apps.DatahubConfig',
     'corsheaders',
+    'django_countries'
 ]
 
 MIDDLEWARE = [
