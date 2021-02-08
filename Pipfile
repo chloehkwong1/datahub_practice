@@ -9,6 +9,7 @@ psycopg2 = "*"
 python-dateutil = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+django-countries = "*"
 
 [dev-packages]
 
