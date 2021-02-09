@@ -9,6 +9,7 @@ from .models import Csv, BedTemplate
 from .serializers import BedSerializer
 from rest_framework.decorators import api_view
 from dateutil.parser import parse
+from datahub.exceptions import APIIntegrityException
 
 import csv
 
@@ -37,6 +38,8 @@ def upload_file_view(request):
                     )
                 obj.published = True
                 obj.save()
+    # else:
+    #     raise APIIntegrityException()
     return render(request, 'upload.html', {'form': form})
 
 @api_view(['GET', 'POST'])
@@ -56,7 +59,7 @@ def interaction_list(request):
     elif request.method == 'POST':
         interaction_data = JSONParser().parse(request)
         interaction_serializer = BedSerializer(data=interaction_data)
-        if interaction_serializer.is_valid():
+        if interaction_serializer.is_valid(raise_exception=True):
             interaction_serializer.save()
             return JsonResponse(interaction_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(interaction_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,7 +79,7 @@ def interaction_detail(request, pk):
     elif request.method == 'PUT':
         interaction_data = JSONParser().parse(request)
         interaction_serializer = BedSerializer(interaction, data=interaction_data)
-        if interaction_serializer.is_valid():
+        if interaction_serializer.is_valid(raise_exception=True):
             interaction_serializer.save()
             return JsonResponse(interaction_serializer.data)
         return JsonResponse(interaction_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
