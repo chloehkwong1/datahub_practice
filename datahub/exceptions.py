@@ -53,3 +53,8 @@ class APINotImplementedException(APIException):
     status_code = status.HTTP_501_NOT_IMPLEMENTED
     default_detail = _('Cannot process request due to functionality that is unimplemented.')
     default_code = 'not_implemented'
+
+class APIIntegrityException(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    default_detail = _('This interaction title is already being used. Please rename and try again.')
+    default_code = 'bad_request'
